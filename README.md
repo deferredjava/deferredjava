@@ -1,4 +1,4 @@
-# DeferredJava
+# DeferredJava Project
 
 **`DeferredJava`** is a thread safe non-blocking `deferred/promise` implementation for `Java`. It provides an easy to use fluent `deferred/promise` API that can be used to manage complex flow of asynchronus operations easily.
 
