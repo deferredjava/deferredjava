@@ -44,7 +44,6 @@ It is not very easy to controll a complex flow of asynchronus operations special
 
 ### 1. Hello World!!
 
-
 ```java
 
 		Deferred<String> deferred = DeferredFactory.createDeferred();
@@ -79,10 +78,9 @@ It is not very easy to controll a complex flow of asynchronus operations special
 
 ### 2. Promise Chaining
 
-
 ```java
 
-Deferred<String> deferred = DeferredFactory.createDeferred();
+		Deferred<String> deferred = DeferredFactory.createDeferred();
 		
 		deferred.then(new Callbacks.SuccessCallBack<String, String>() {
 			@Override
@@ -119,4 +117,51 @@ Deferred<String> deferred = DeferredFactory.createDeferred();
 		
 		//to resolve use deferred.resolve("Hello");
 		//to reject use deferred.reject(new RuntimeException("Hello Hell!!"));
+```
+
+### 3. When all with Callable
+
+```java
+		
+		Deferred.when(new Callable<String>(){
+			public String call() throws Exception {
+				Thread.sleep(100);
+				return "Hello";
+			}
+		}, new Callable<String>(){
+			public String call() throws Exception {
+				Thread.sleep(200);
+				
+				//note: set accept value to false to raise an exception
+				//uses for experiment
+				if(accept) {
+					return " ";
+				}
+				
+				throw new RuntimeException("Second call failed");
+			}
+		}, new Callable<String>(){
+			public String call() throws Exception {
+				return "World!!";
+			}
+		}).then(new SuccessCallBack<Object, List<String>>() {
+			@Override
+			public Object call(List<String> values) {
+				String result = "";
+				for(String value : values) {
+					result = result + value;
+				}
+				System.out.println(result);
+				return VoidType.NOTHING;
+			}
+		}).fail(new Callbacks.FailureCallBack() {
+			@Override
+			public VoidType call(Exception reason) {
+				System.out.println(reason.getMessage());
+				return VoidType.NOTHING;
+			}
+		});
+		
+		//now wait sometimes to give some time to finish tasks
+		Thread.wait(1000);
 ```
