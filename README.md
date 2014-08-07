@@ -42,5 +42,79 @@ It is not very easy to controll a complex flow of asynchronus operations special
 
 ## Quick Examples
 
-TODO
+### 1. Hello World!!
 
+```java
+
+		Deferred<String> deferred = DeferredFactory.createDeferred();
+		
+		deferred.then(
+			new Callbacks.SuccessCallBack<VoidType, String>() {
+				@Override
+				public Object call(String value) {
+					System.out.println(value);
+					return VoidType.NOTHING;
+				}
+			}, 
+			new Callbacks.FailureCallBack() {
+				@Override
+				public VoidType call(Exception reason) {
+					System.out.println(reason.getMessage());
+					return VoidType.NOTHING;
+				}
+			}, 
+			new Callbacks.NotificationCallBack() {
+				@Override
+				public VoidType call(NotificationEvent event) {
+					System.out.println("An update received!!");
+					return null;
+				}
+			});
+		
+		//to resolve use deferred.resolve("Hello World!!);
+	 	//to notify use deferred.notify(new NotificationEvent(deferred.promise()));
+	 	//to reject use deferred.reject(new RuntimeException("message here..."))
+```
+
+## 2. Promise Chaining
+
+```java
+
+Deferred<String> deferred = DeferredFactory.createDeferred();
+		
+		deferred.then(new Callbacks.SuccessCallBack<String, String>() {
+			@Override
+			public Object call(String value) {
+				return value + " ";
+			}
+		})
+		.then(new Callbacks.SuccessCallBack<String, String>() {
+			@Override
+			public Object call(String value) {
+				return value + "World";
+			}
+		})
+		.then(new Callbacks.SuccessCallBack<String, String>() {
+			@Override
+			public Object call(String value) {
+				return value + "!!";
+			}
+		})
+		.then(new Callbacks.SuccessCallBack<String, String>() {
+			@Override
+			public Object call(String value) {
+				System.out.println(value);
+				return null;
+			}
+		})
+		.fail(new FailureCallBack() {
+			@Override
+			public VoidType call(Exception ex) {
+				System.out.println(ex.getMessage());
+				return null;
+			}
+		});
+		
+		//to resolve use deferred.resolve("Hello");
+		//to reject use deferred.reject(new RuntimeException("Hello Hell!!"));
+```
