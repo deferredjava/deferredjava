@@ -44,6 +44,7 @@ It is not very easy to controll a complex flow of asynchronus operations special
 
 ### 1. Hello World!!
 
+
 ```java
 
 		Deferred<String> deferred = DeferredFactory.createDeferred();
@@ -76,7 +77,8 @@ It is not very easy to controll a complex flow of asynchronus operations special
 	 	//to reject use deferred.reject(new RuntimeException("message here..."))
 ```
 
-## 2. Promise Chaining
+### 2. Promise Chaining
+
 
 ```java
 
