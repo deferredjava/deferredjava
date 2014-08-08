@@ -60,12 +60,12 @@ public class DeferredContainer {
 	 * Creates a container with the default setup.
 	 * 
 	 */
-	public synchronized static void createNewContainer() {
+	public synchronized static DeferredContainer createNewContainer() {
 		if(container == null) {
 			container = new DeferredContainer();
 		} 
 		
-		return;
+		 return container;
 	}
 	
 	/**

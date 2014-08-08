@@ -186,4 +186,19 @@ public abstract class Deferred<R> extends Promise<R> {
 		return when(promises);
 	}
 	
+	/**
+	 * The when method for multiple {@link DeferredTask} objects
+	 * 
+	 * @param deferredTasks the deferred tasks
+	 * 
+	 * @return a new promise
+	 */
+	public static <T> Promise<List<T>> when(DeferredTask<T>... deferredTasks) {
+		Promise<T>[] promises = (Promise<T>[]) new Promise<?>[deferredTasks.length];
+		for(int i = 0; i < deferredTasks.length; i++) {
+			promises[i] = deferredTasks[i].promise();
+		}
+		return when(promises);
+	}
+	
 }
